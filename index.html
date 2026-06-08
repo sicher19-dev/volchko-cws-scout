@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scouting Report &amp; Pitch Sequencing to Dominate Texas | No Brand Baseball Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d10; --bg2:#141417; --panel:#17171c; --panel2:#1f1f26;
+    --red:#ba0c2f; --red-br:#e23a52; --red-dim:#7a1020;
+    --white:#f3f3f5; --silver:#cfd2d8; --muted:#94949e;
+    --line:rgba(186,12,47,.30); --line-soft:rgba(255,255,255,.07);
+    --green:#3fb97f; --orange:#e0993f;
+    --c-fb:#dfe3ea; --c-ct:#5b8def; --c-sl:#3fb97f; --c-cb:#b86be0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:'Archivo',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(820px 520px at 82% -8%, rgba(186,12,47,.16), transparent 60%),radial-gradient(620px 440px at -5% 102%, rgba(186,12,47,.10), transparent 55%)}
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 18px 70px}
+
+  header{padding:30px 0 18px;border-bottom:2px solid var(--red)}
+  .brand{display:flex;align-items:center;gap:11px;letter-spacing:.4em;font-size:11px;text-transform:uppercase;color:var(--red-br);font-weight:800}
+  .brand .dot{width:7px;height:7px;background:var(--red);transform:rotate(45deg);box-shadow:0 0 12px var(--red)}
+  h1{font-weight:900;line-height:1.0;letter-spacing:-.02em;font-size:clamp(32px,6.4vw,58px);margin:14px 0 8px;text-transform:uppercase}
+  h1 .hl{color:var(--red-br)}
+  .subhead{color:var(--silver);font-size:14px;max-width:700px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .chip{font:700 11px/1 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;padding:7px 11px;border:1px solid var(--line);border-radius:2px;color:var(--red-br);background:rgba(186,12,47,.07)}
+  .chip.live{color:var(--silver);border-color:var(--line-soft);background:transparent}
+
+  .caveat{margin-top:20px;display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line-soft);border-left:3px solid var(--green);background:linear-gradient(90deg,rgba(63,185,127,.09),transparent);padding:14px 16px;border-radius:3px;font-size:13.5px;color:#e7e7ea}
+  .caveat b{color:var(--green)}
+  .caveat .ic{font:800 18px/1 'Archivo',sans-serif;color:var(--green);flex:0 0 auto}
+
+  .sec{margin-top:42px}
+  .sec-h{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .sec-h .num{font:800 13px 'JetBrains Mono',monospace;color:var(--red)}
+  .sec-h h2{font-weight:800;font-size:23px;letter-spacing:-.01em;text-transform:uppercase}
+  .sec-h .rule{flex:1;height:2px;background:var(--line)}
+
+  .arsenal-intro{color:var(--silver);font-size:14px;max-width:780px;margin-bottom:18px}
+  .arsenal-intro b{color:var(--white)}
+  .arsenal{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .pitch{border:1px solid var(--line-soft);border-radius:5px;padding:15px 16px;background:var(--panel);position:relative;overflow:hidden}
+  .pitch::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--pc,var(--red))}
+  .pitch .pn{font-weight:800;font-size:16px}
+  .pitch .pv{font:700 22px 'JetBrains Mono',monospace;color:var(--white);margin:4px 0 2px}
+  .pitch .ps{font:500 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.04em}
+  .pitch .pd{font-size:12px;color:var(--silver);margin-top:8px;line-height:1.42}
+  .ident{margin-top:14px;padding:15px 17px;border:1px solid var(--line);border-left:3px solid var(--red);border-radius:5px;font-size:13.6px;color:#e4e4e8;background:rgba(186,12,47,.05)}
+  .ident b{color:var(--red-br)}
+
+  .filter{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .filter button{font:700 11px 'JetBrains Mono',monospace;letter-spacing:.04em;text-transform:uppercase;background:transparent;color:var(--muted);border:1px solid var(--line-soft);padding:8px 13px;border-radius:2px;cursor:pointer;transition:.2s}
+  .filter button:hover{color:var(--white);border-color:var(--line)}
+  .filter button.on{background:var(--red);color:#fff;border-color:var(--red)}
+
+  .grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+  .rail{display:flex;flex-direction:column;gap:7px;position:sticky;top:14px}
+  @media(max-width:820px){.rail{position:static}}
+  .bat{display:flex;align-items:center;gap:12px;border:1px solid var(--line-soft);border-radius:4px;padding:10px 12px;background:var(--panel);cursor:pointer;transition:.16s;text-align:left}
+  .bat:hover{background:var(--panel2);transform:translateX(3px)}
+  .bat.active{background:var(--panel2);border-color:var(--red);box-shadow:-3px 0 0 0 var(--red)}
+  .bat .ord{font:800 15px 'JetBrains Mono',monospace;color:var(--red-br);width:18px;flex:0 0 auto}
+  .bat .bi{flex:1;min-width:0}
+  .bat .bn{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bat .bp{font:500 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.03em}
+  .hand{font:700 10px 'JetBrains Mono',monospace;padding:3px 6px;border-radius:2px;flex:0 0 auto}
+  .hand.R{background:rgba(91,141,239,.2);color:#9dbcf2}
+  .hand.L{background:rgba(224,153,63,.18);color:var(--orange)}
+  .thr{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+
+  .detail{border:1px solid var(--line-soft);border-radius:7px;background:var(--panel);padding:24px 26px;min-height:520px;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .d-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+  .d-name{font-weight:900;font-size:30px;line-height:1;letter-spacing:-.01em;text-transform:uppercase}
+  .d-sub{font:500 12px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.03em;margin-top:7px}
+  .d-threat{text-align:right;flex:0 0 auto}
+  .d-threat .lbl{font:700 10px 'JetBrains Mono',monospace;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+  .d-threat .val{font-weight:800;font-size:17px}
+
+  .statline{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:1px;margin:22px 0;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:5px;overflow:hidden}
+  .st{background:var(--bg2);padding:11px 8px;text-align:center}
+  .st .v{font:700 17px 'JetBrains Mono',monospace;color:var(--red-br)}
+  .st .k{font:600 9.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+
+  .d-block{margin-top:22px}
+  .d-block h4{font:800 11px 'JetBrains Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--red-br);margin-bottom:9px;display:flex;align-items:center;gap:9px}
+  .d-block h4::after{content:"";flex:1;height:1px;background:var(--line)}
+  .d-block p{font-size:13.6px;color:#e0e0e4;line-height:1.62}
+  .tag{display:inline-block;font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:.03em;padding:3px 8px;border:1px solid var(--line-soft);border-radius:2px;margin:3px 5px 0 0;color:var(--silver)}
+
+  .book{margin-top:22px;border:1px solid var(--line);border-radius:6px;background:rgba(186,12,47,.06);padding:17px 19px;position:relative}
+  .book::before{content:"THE BOOK ON HIM";position:absolute;top:-9px;left:14px;background:var(--panel);padding:0 8px;font:800 9.5px 'JetBrains Mono',monospace;letter-spacing:.15em;color:var(--red-br)}
+  .book p{font-size:14.5px;line-height:1.65;color:#f0f0f2}
+
+  .attack{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;margin-top:14px}
+  .zone-wrap{flex:0 0 auto}
+  .zlabels{display:grid;grid-template-columns:repeat(3,42px);gap:3px;margin:0 0 4px 0;padding-left:13px}
+  .zlabels span{font:700 8.5px 'JetBrains Mono',monospace;text-align:center;color:var(--muted);letter-spacing:.04em}
+  .zone{display:grid;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(3,42px);gap:3px;padding:13px;border:1px solid var(--line-soft);border-radius:4px;background:var(--bg2);position:relative}
+  .zc{border-radius:2px;background:rgba(255,255,255,.045)}
+  .zc.t1{background:rgba(63,185,127,.72)}
+  .zc.t2{background:rgba(63,185,127,.33)}
+  .zc.danger{background:rgba(186,12,47,.62)}
+  .zc.danger2{background:rgba(186,12,47,.3)}
+  .zone-cap{font:600 9.5px 'JetBrains Mono',monospace;color:var(--muted);text-align:center;margin-top:7px;letter-spacing:.05em}
+  .zone-cap b{color:var(--green)} .zone-cap i{color:var(--red-br);font-style:normal}
+  .zone-hand{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font:700 9px 'JetBrains Mono',monospace;background:var(--panel);padding:0 7px;color:var(--red-br);letter-spacing:.07em}
+  .mix{flex:1;min-width:230px}
+  .mixrow{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+  .mixrow .ml{font:600 12px 'JetBrains Mono',monospace;width:74px;flex:0 0 auto;color:var(--silver)}
+  .mixbar{flex:1;height:9px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden}
+  .mixbar i{display:block;height:100%;border-radius:5px}
+  .mixrow .mp{font:700 12px 'JetBrains Mono',monospace;width:36px;text-align:right;color:var(--white)}
+
+  .seq{margin-top:24px;border:1px solid var(--line-soft);border-radius:6px;background:var(--bg2);padding:18px 20px}
+  .seq h4{font:800 11px 'JetBrains Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--red-br);margin-bottom:14px;display:flex;align-items:center;gap:9px}
+  .seq h4::after{content:"";flex:1;height:1px;background:var(--line)}
+  .seqflow{display:flex;align-items:stretch;flex-wrap:wrap}
+  .seqstep{flex:1;min-width:150px;border:1px solid var(--line-soft);border-radius:5px;padding:12px 13px;background:var(--panel);position:relative}
+  .seqstep + .seqstep{margin-left:26px}
+  .seqstep:not(:last-child)::after{content:"›";position:absolute;right:-19px;top:50%;transform:translateY(-50%);font:800 20px 'Archivo',sans-serif;color:var(--red)}
+  .seqstep .scount{font:700 9.5px 'JetBrains Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .seqstep .spitch{display:flex;align-items:center;gap:8px;margin:8px 0 4px}
+  .seqstep .pdot{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+  .seqstep .pabbr{font:700 18px 'JetBrains Mono',monospace;color:var(--white)}
+  .seqstep .sloc{font:600 11.5px 'JetBrains Mono',monospace;color:var(--silver);letter-spacing:.02em}
+  @media(max-width:560px){.seqstep + .seqstep{margin-left:0;margin-top:24px}.seqstep:not(:last-child)::after{content:"▾";right:50%;top:auto;bottom:-22px;transform:translateX(50%)}}
+  .seqnote{font-size:12.8px;color:var(--silver);margin-top:14px;padding-left:14px;border-left:2px solid var(--red)}
+  .seqnote b{color:var(--red-br)}
+  .seqnote.tto{border-left-color:var(--muted);margin-top:10px}
+  .seqnote.tto b{color:var(--silver)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;font:600 10px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.03em}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{width:9px;height:9px;border-radius:50%}
+
+  .gp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:700px){.gp{grid-template-columns:1fr}}
+  .gpcard{border:1px solid var(--line-soft);border-radius:6px;padding:18px 20px;background:var(--panel)}
+  .gpcard h3{font-weight:800;font-size:17px;margin-bottom:4px;text-transform:uppercase}
+  .gpcard .gsub{font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;margin-bottom:11px}
+  .gpcard.rh h3{color:#9dbcf2}.gpcard.rh .gsub{color:#5b8def}
+  .gpcard.lh h3{color:var(--orange)}.gpcard.lh .gsub{color:var(--red-dim)}
+  .gpcard ul{list-style:none;font-size:13px;color:#e0e0e4}
+  .gpcard li{padding:6px 0 6px 18px;position:relative;border-top:1px solid var(--line-soft)}
+  .gpcard li:first-child{border-top:none}
+  .gpcard li::before{content:"›";position:absolute;left:0;color:var(--red-br);font-weight:800}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand"><span class="dot"></span>No Brand Baseball Analytics</div>
+    <h1>Scouting Report &amp; Pitch Sequencing<br>to <span class="hl">Dominate</span> Texas</h1>
+    <p class="subhead">Lineup dossier &amp; attack plan for Georgia RHP Joey Volchko. Every recommendation is keyed to Volchko's glove-side, supination-bias arsenal — not generic platoon defaults.</p>
+    <div class="meta-row">
+      <span class="chip">2026 MCWS · Omaha</span>
+      <span class="chip">Georgia (Volchko) vs Texas</span>
+      <span class="chip">Texas 45–13 · SEC</span>
+      <span class="chip live" id="dateline">Compiled —</span>
+    </div>
+  </header>
+
+  <section class="sec">
+    <div class="sec-h"><span class="num">01</span><h2>Volchko's weapon set</h2><span class="rule"></span></div>
+    <p class="arsenal-intro"><b>6'4" RHP, ~3.8 ERA, 98 K.</b> A hard supinator who creates plus glove-side shapes and almost no arm-side life. As a righty, everything he throws moves to the <b>first-base (glove) side</b> — away from right-handed bats, in toward left-handed bats. That movement profile, not handedness alone, drives every plan below.</p>
+    <div class="arsenal" id="arsenal"></div>
+    <div class="ident"><b>Core read — get this right and the plan writes itself:</b> Volchko's glove-side pitches (cutter, slider, curve) all break toward first base — so they run <b>away from right-handed hitters</b> and <b>in on left-handed hitters</b>. He has essentially no arm-side life, which means two hard limits: he can't run anything <b>in on a righty's hands</b>, and he can't run anything <b>away from a lefty</b>. That makes the 5 RHH the more pitchable group (work them away and down), and the 4 lefties — <b>Anthony Pack Jr. above all</b> — the ones who can sit out over the plate where his stuff can't reach. The cutter that backs up over the middle is the pitch that beats him.</div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h"><span class="num">02</span><h2>The order, hitter by hitter</h2><span class="rule"></span></div>
+    <div class="filter" id="filter">
+      <button data-f="all" class="on">Full order (1–9)</button>
+      <button data-f="R">Bats R vs Volchko</button>
+      <button data-f="L">Bats L vs Volchko</button>
+      <button data-f="bench">Bench / situational</button>
+    </div>
+    <div class="grid">
+      <div class="rail" id="rail"></div>
+      <div class="detail" id="detail"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h"><span class="num">03</span><h2>Macro plan</h2><span class="rule"></span></div>
+    <div class="gp">
+      <div class="gpcard rh">
+        <h3>The 5 right-handed bats</h3>
+        <div class="gsub">Robbins · Tinney · Becerra · Mendoza · Borba</div>
+        <ul>
+          <li>The pitchable group. Cutter and slider break <b>away</b> off the barrel — live on the outer third and the bottom of the zone.</li>
+          <li>Expand <b>down &amp; away</b> with the curve for chase; the power RHH (Borba 30% K, Tinney/Robbins ~22%) swing through it.</li>
+          <li>He can't run anything in on their hands — so the only in-pitch is an <b>elevated four-seam</b> to change the eye, never a cutter (it backs up over the middle).</li>
+          <li>vs pull-heavy Borba, keep the cutter off the outer edge and never let it leak to his pull side.</li>
+          <li>Exception: Mendoza (11.8% K, 14.9% BB) won't chase — attack the zone away, accept weak contact, don't waste spin beneath it.</li>
+        </ul>
+      </div>
+      <div class="gpcard lh">
+        <h3>The 4 left-handed bats</h3>
+        <div class="gsub">Pack · Rodriguez (switch) · Larson · Pendergrass</div>
+        <ul>
+          <li>The structural hole: <b>nothing runs away from a lefty.</b> They can lean out over the plate; anything middle-away runs back to the barrel.</li>
+          <li>The cutter is still a weapon — it <b>jams them in</b> on the hands. Pitch them <b>in and up</b>, backfoot the slider/curve.</li>
+          <li><b>Pack Jr.</b> — the toughest AB in the order. Take the outer third out of the plan entirely; jam in, climb with the four-seam, never a cutter over the middle.</li>
+          <li>Larson &amp; Pendergrass have almost no power (1 &amp; 0 HR) — just throw strikes; Larson's 20.5% walk rate punishes any nibble.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const VOLCHKO = [
+  {n:"Four-seam (cut)", v:"94–96", s:"~2700 rpm", c:"#dfe3ea", d:"Rides with slight cut, no arm-side run. Lives up in the zone to change eye levels — the only pitch he can elevate up-and-in to a righty."},
+  {n:"Cutter", v:"90–92", s:"~2700 rpm", c:"#5b8def", d:"Glove-side workhorse. Off the barrel AWAY to RHH; jams IN on the hands of LHH. Danger: backs up over the middle when missed."},
+  {n:"Slider", v:"87–89", s:"~2900 rpm", c:"#3fb97f", d:"Highest-spin pitch, primary whiff. Down-and-away chase to RHH; backfoot / down-in to LHH."},
+  {n:"Curveball", v:"84–87", s:"~2600 rpm", c:"#b86be0", d:"Depth pitch. Down-and-away to RHH; drops in / backfoot to LHH. Plays off the elevated four-seam."}
+];
+const PC={FB:"#dfe3ea",CT:"#5b8def",SL:"#3fb97f",CB:"#b86be0"};
+
+/* zone cells 1-9, batter-relative columns: IN | MID | AWAY ; rows UP/MID/DOWN
+   1 up-in   2 up-mid   3 up-away
+   4 mid-in  5 mid-mid  6 mid-away
+   7 down-in 8 down-mid 9 down-away */
+
+const HITTERS = [
+  {ord:1,name:"Aiden Robbins",pos:"RF",bt:"R / R",cls:"Jr · Seton Hall transfer",vol:"R",threat:"Elite",thrColor:"#ba0c2f",
+   stats:{AVG:".347",OBP:".441",SLG:".721",HR:"23",ISO:".374","K%":"21.9","BB%":"13.5",SB:"12"},
+   profile:"Co-leads the lineup in raw power (23 HR, .721 SLG) yet hits leadoff — Schlossnagle stacks his best three bats 1-2-3. A complete threat with a .441 OBP and 12 bags, but a 21.9% K rate that's exploitable away and down.",
+   tags:["Plus-plus power","Runs (12 SB)","Chase-able away/down","Top-of-order"],
+   book:"Pitch him on a diagonal away. Start the cutter on the outer edge to steal a strike, drop the slider beneath it for the chase, then climb the ladder with the four-seam for the whiff. There's only one mistake that hurts you here — a cutter that leaks back over the middle, the one pitch he can extend on.",
+   zone:{t1:[3,6,9],t2:[2],danger:[5],danger2:[4]},
+   mix:[["Cutter",35,"#5b8def"],["Slider",28,"#3fb97f"],["Curve",22,"#b86be0"],["4S cut",15,"#dfe3ea"]],
+   seq:{steps:[["First pitch","CT","outer edge — steal strike 1"],["Ahead 0-1/1-2","SL","down & away — chase"],["Put-away","FB","up — climb the ladder"]],
+        behind:"Cutter back on the outer edge; never drift it middle. He leaves the yard on mistakes.",
+        tto:"Mix the elevated four-seam earlier in later ABs so he can't simply sit away."}},
+
+  {ord:2,name:"Carson Tinney",pos:"C",bt:"R / R",cls:"Jr · Notre Dame transfer",vol:"R",threat:"Elite",thrColor:"#ba0c2f",
+   stats:{AVG:".333",OBP:".489",SLG:".711",HR:"21",ISO:".378","K%":"22.4","BB%":"18.6",SB:"10"},
+   profile:"The lineup's best overall bat — team-leading ~1.20 OPS and a likely first-round pick. Elite power (.378 ISO) with an absurd .489 OBP. He controls the zone and won't expand early, but the 22.4% K is the door once you're ahead.",
+   tags:["Best bat in order","Elite OBP","1st-round talent","Patient → chase late"],
+   book:"Win the outer third and the bottom of the zone — and stay out of his power. He lets borderline pitches go early, so steal strike one with a cutter away, then bury spin under the zone to cash the chase. The cardinal sins are anything middle and anything elevated over the plate; he's a first-round bat for a reason.",
+   zone:{t1:[6,9],t2:[3,8],danger:[5,2],danger2:[1]},
+   mix:[["Slider",32,"#3fb97f"],["Cutter",30,"#5b8def"],["Curve",23,"#b86be0"],["4S cut",15,"#dfe3ea"]],
+   seq:{steps:[["First pitch","CT","away — he takes early, steal strike 1"],["Ahead 0-1/1-2","SL","down & away"],["Put-away","CB","beneath the zone — expand"]],
+        behind:"Cutter off the edge — take the walk over a strike middle.",
+        tto:"Move the away target around every time through; he adjusts faster than anyone in the order."}},
+
+  {ord:3,name:"Anthony Pack Jr.",pos:"LF",bt:"L / L",cls:"Fr · SEC Freshman of the Year",vol:"L",threat:"Elite — toughest AB",thrColor:"#ba0c2f",
+   stats:{AVG:".358",OBP:".482",SLG:".602",HR:"11",ISO:".244","K%":"13.5","BB%":"16.7",SB:"20"},
+   profile:"The matchup that exposes the arsenal. Elite contact (13.5% K) + power + a team-leading 20 SB + a .391 BABIP — and he's a lefty, so Volchko has nothing that runs away from him. SEC Freshman of the Year, 1.08 OPS, 16 doubles.",
+   tags:["Plus contact + power","Lefty = bad matchup","20 SB","No outer-half answer"],
+   book:"Accept that the outer third doesn't exist against this guy — Volchko can't run anything away from him, so don't even try to live there. Take the plate away by jamming him in with the cutter and climbing with the four-seam, and backfoot the slider when you're ahead. The pitch that beats you is a cutter that backs up over the middle; keep it off the plate-middle at all costs.",
+   zone:{t1:[4,7],t2:[1,2],danger:[5,6],danger2:[3]},
+   mix:[["Slider",30,"#3fb97f"],["Curve",26,"#b86be0"],["Cutter",24,"#5b8def"],["4S cut",20,"#dfe3ea"]],
+   seq:{steps:[["First pitch","FB","elevated — disrupt timing"],["Ahead 0-1/1-2","SL","backfoot, down & in"],["Put-away","CB","backfoot / FB up"]],
+        behind:"Climb with the four-seam; never the cutter over the middle — it runs to his barrel.",
+        tto:"Change the first-pitch look every AB; don't let a freshman of his caliber time the fastball."}},
+
+  {ord:4,name:"Temo Becerra",pos:"2B",bt:"R / R",cls:"Sr · Stanford transfer",vol:"R",threat:"High",thrColor:"#e0993f",
+   stats:{AVG:".316",OBP:".437",SLG:".461",HR:"6",ISO:".146","K%":"16.9","BB%":"15.7",SB:"12"},
+   profile:"A high-OBP, bat-to-ball professional (career .314) batting cleanup more for on-base than thump. Modest power (.146 ISO); his value is extending innings. A .373 BABIP says some of the average is hit-luck.",
+   tags:["High OBP, low ISO","Contact-oriented","BABIP regression risk","Runs a bit"],
+   book:"Don't pitch around power he doesn't have. Pound the outer third with the cutter and make him beat you with a single — slider off the same look for weak contact. No need to chase whiffs beneath the zone; just keep the barrel off it and don't gift the walk that's the real value in his game.",
+   zone:{t1:[6,9],t2:[3],danger:[5],danger2:[4]},
+   mix:[["Cutter",38,"#5b8def"],["Slider",26,"#3fb97f"],["4S cut",20,"#dfe3ea"],["Curve",16,"#b86be0"]],
+   seq:{steps:[["First pitch","CT","away, in the zone — attack"],["Ahead 0-1/1-2","SL","away off the cutter tunnel"],["Put-away","SL","away — induce weak contact"]],
+        behind:"Cutter away for a strike; accept contact, he won't punish over the fence.",
+        tto:"Stay efficient and in the zone; chase sequences are wasted pitches on him."}},
+
+  {ord:5,name:"Adrian Rodriguez",pos:"SS",bt:"S / R",cls:"So · switch (bats L vs RHP)",vol:"L",threat:"High",thrColor:"#e0993f",
+   stats:{AVG:".298",OBP:".404",SLG:".457",HR:"4",ISO:".160","K%":"13.2","BB%":"14.5",SB:"13"},
+   profile:"The engine — switch-hitter who bats LEFT against Volchko, with plus contact (13.2% K), real speed (13 SB) and gap pop. Just won the Austin Super Regional with a clutch two-run double, so he's locked in.",
+   tags:["Switch → bats L here","Contact + speed","Clutch / hot","Limit run game"],
+   book:"He's swinging it and he runs, so treat first base like second base. As a lefty he sees the glove-side stuff coming in, so jam him with the cutter and bury the breaker down-and-in — there's no away pitch to lean on, so keep it off the barrel and in the zone on the corners. Win the at-bat, then win the base.",
+   zone:{t1:[4,7],t2:[1],danger:[6],danger2:[5]},
+   mix:[["Cutter",34,"#5b8def"],["Slider",26,"#3fb97f"],["Curve",22,"#b86be0"],["4S cut",18,"#dfe3ea"]],
+   seq:{steps:[["First pitch","CT","front hip — get ahead"],["Ahead 0-1/1-2","SL","down & in, off the barrel"],["Put-away","CB","buried in"]],
+        behind:"Front-hip cutter strike; keep it off the barrel, don't groove one.",
+        tto:"Quick tempo, vary holds — his legs hurt you more than his bat."}},
+
+  {ord:6,name:"Ethan Mendoza",pos:"DH",bt:"R / R",cls:"Jr · returning starter",vol:"R",threat:"Moderate-High",thrColor:"#e0993f",
+   stats:{AVG:".270",OBP:".396",SLG:".469",HR:"9",ISO:".199","K%":"11.8","BB%":"14.9",SB:"-"},
+   profile:"The toughest strikeout in the order — 11.8% K against a 14.9% walk. Disciplined, added weight to drive the ball, gap-to-pull power (.199 ISO, 13 doubles). He simply won't chase.",
+   tags:["Elite zone control","Won't chase","Gap-pull power","Attack early"],
+   book:"He's the one righty you don't try to expand — he'll spit on the breaking ball beneath the zone and take his walk. Attack the outer third in the zone with the cutter, then change his eye with the four-seam up. Make him put it in play; the deep counts are where his discipline beats you, so don't let it get there.",
+   zone:{t1:[6],t2:[3,2],danger:[5],danger2:[8]},
+   mix:[["Cutter",40,"#5b8def"],["4S cut",24,"#dfe3ea"],["Slider",22,"#3fb97f"],["Curve",14,"#b86be0"]],
+   seq:{steps:[["First pitch","CT","away, in the zone — no nibbling"],["Ahead 0-1/1-2","FB","up — change his eye"],["Put-away","CT","away in the zone (NOT spin below)"]],
+        behind:"Zone with the cutter — never nibble; he'll walk.",
+        tto:"Attack early every AB; avoid the deep counts where his eye takes over."}},
+
+  {ord:7,name:"Ashton Larson",pos:"1B",bt:"L / L",cls:"Jr · returning",vol:"L",threat:"Moderate",thrColor:"#3fb97f",
+   stats:{AVG:".286",OBP:".456",SLG:".375",HR:"1",ISO:".089","K%":"19.2","BB%":"20.5",SB:"3"},
+   profile:"An OBP machine with almost no power (1 HR, .089 ISO) — a 20.5% walk rate carries a .456 OBP. The threat is the free pass turning the lineup over, not the extra-base hit.",
+   tags:["Zero power","20.5% BB — walk machine","Throw strikes","Bottom third"],
+   book:"The only way he beats you is the walk in front of the order turning over — so throw strikes and dare him to do damage he isn't capable of. He's a lefty, so jam the cutter in and stay in the zone; with one homer all year, there's no pitch you need to be fine with. Challenge him and make him earn a single.",
+   zone:{t1:[4,7],t2:[2,8],danger:[],danger2:[6]},
+   mix:[["Cutter",42,"#5b8def"],["4S cut",24,"#dfe3ea"],["Slider",20,"#3fb97f"],["Curve",14,"#b86be0"]],
+   seq:{steps:[["First pitch","CT","in the zone — get ahead"],["Ahead 0-1/1-2","FB","in the zone"],["Put-away","CT","in — make him swing"]],
+        behind:"Throw strikes — any nibble is the walk he's hunting.",
+        tto:"Pure strike-throwing; make him beat you with a single."}},
+
+  {ord:8,name:"Casey Borba",pos:"3B",bt:"R / R",cls:"Jr · returning",vol:"R",threat:"High (boom/bust)",thrColor:"#e0993f",
+   stats:{AVG:".275",OBP:".379",SLG:".574",HR:"17",ISO:".299","K%":"30.0","BB%":"13.0",SB:"5"},
+   profile:"Prodigious, pull-heavy power (17 HR, .574 SLG) attached to a 30% K rate — the definition of boom-or-bust, hitting 8th. Scuffled through the regional but can flip a switch and carry a game.",
+   tags:["Big pull power","30% K — top whiff target","Boom/bust","Live away & down"],
+   book:"He's the biggest whiff target in the order at 30% K, and since Volchko can't run anything in on his hands, the plan leans the same way it always should against a pull-heavy slugger: away and down. Cutter off the outer edge, then bury the slider and curve beneath the zone for the chase. The fatal mistake is a cutter that backs up to the middle-in pull zone — that's where all 17 homers live.",
+   zone:{t1:[6,9],t2:[3],danger:[4,5],danger2:[1]},
+   mix:[["Slider",34,"#3fb97f"],["Curve",26,"#b86be0"],["Cutter",24,"#5b8def"],["4S cut",16,"#dfe3ea"]],
+   seq:{steps:[["First pitch","CT","outer edge — off the barrel"],["Ahead 0-1/1-2","SL","buried down & away — chase"],["Put-away","CB","beneath the zone"]],
+        behind:"Cutter off the outer edge — never let it run back to the pull side.",
+        tto:"Keep expanding away and down; the 30% K is the out so long as you stay off middle-in."}},
+
+  {ord:9,name:"Dariyan Pendergrass",pos:"CF",bt:"L / L",cls:"R-Sr · C. of Charleston transfer",vol:"L",threat:"Low-Moderate",thrColor:"#3fb97f",
+   stats:{AVG:".258",OBP:".400",SLG:".290",HR:"0",ISO:".032","K%":"12.2","BB%":"14.6",SB:"-"},
+   profile:"Speed-first nine-hole bat — zero home runs, .032 ISO, but a .400 OBP via walks and contact (12.2% K). The danger is his legs in front of the top of the order; he stole second and third in a single Game 1 sequence.",
+   tags:["Pure speed","No power (0 HR)","Run-game threat","Turns lineup over"],
+   book:"Zero homers but a .400 OBP and a real base-stealing threat right in front of Robbins and Tinney — so the whole at-bat is about not letting him reach. Jam the cutter in, keep it off the barrel, and above all don't walk the nine-hole. If he does get on, control the run game like there's already a runner on second.",
+   zone:{t1:[4,7],t2:[2,8],danger:[],danger2:[6]},
+   mix:[["Cutter",44,"#5b8def"],["4S cut",26,"#dfe3ea"],["Slider",18,"#3fb97f"],["Curve",12,"#b86be0"]],
+   seq:{steps:[["First pitch","CT","in the zone — get ahead"],["Ahead 0-1/1-2","FB","in the zone"],["Put-away","CT","in — make him hit it"]],
+        behind:"Strike with the cutter; don't walk the leadoff turn.",
+        tto:"Quick tempo, control the run game — treat first like second."}},
+];
+
+const BENCH = [
+  {ord:"·",name:"Josh Livingston",pos:"INF/DH",bt:"L / R",cls:"Sr · Wichita State transfer",vol:"L",threat:"Power off bench",thrColor:"#e0993f",
+   stats:{AVG:".231",OBP:".362",SLG:".449",HR:"4",ISO:".218","K%":"29.5","BB%":"13.7",SB:"2"},
+   profile:"Left-handed bench power bat (15 HR for WSU previously) with a 29.5% K rate. If he enters, the swing-and-miss is the lever — but he's a lefty, so the chase comes in, not away.",
+   tags:["Bench power","29.5% K","Chase target","Lefty"],
+   book:"Bench power with a 30% strikeout rate — exploit the whiff, but remember he's a lefty, so the chase pitch is the backfoot slider down-and-in, not a breaker away. Jam the cutter in, then bury spin beneath the zone. Don't let him ambush a cutter that backs up over the middle.",
+   zone:{t1:[4,7],t2:[1],danger:[5,6],danger2:[3]},
+   mix:[["Slider",34,"#3fb97f"],["Curve",26,"#b86be0"],["Cutter",24,"#5b8def"],["4S cut",16,"#dfe3ea"]],
+   seq:{steps:[["First pitch","CT","in — off the barrel"],["Ahead 0-1/1-2","SL","backfoot, buried in"],["Put-away","CB","beneath the zone"]],
+        behind:"Cutter in off the edge — never the middle; the bench power plays on mistakes.",
+        tto:"Bury spin in; the 29.5% K is the out if you stay off the middle."}},
+  {ord:"·",name:"Jayden Duplantier",pos:"OF/UT",bt:"R / R",cls:"Sr",vol:"R",threat:"Situational",thrColor:"#3fb97f",
+   stats:{AVG:".255",OBP:".365",SLG:".362",HR:"2",ISO:".106","K%":"22.4","BB%":"14.7",SB:"11"},
+   profile:"Right-handed utility/speed piece (11 SB). Modest power, decent OBP — a pinch-run / defensive-sub profile. If he hits, the standard righty plan applies.",
+   tags:["Utility/speed","RHH","Situational","Runs"],
+   book:"A situational righty whose legs matter more than his bat. Standard RHH plan — cutter and slider away off the barrel, expand with the curve down — and then manage his speed if he reaches.",
+   zone:{t1:[6,9],t2:[3],danger:[5],danger2:[4]},
+   mix:[["Cutter",36,"#5b8def"],["Slider",26,"#3fb97f"],["Curve",22,"#b86be0"],["4S cut",16,"#dfe3ea"]],
+   seq:{steps:[["First pitch","CT","away — off the barrel"],["Ahead 0-1/1-2","SL","away — chase"],["Put-away","CB","down & away"]],
+        behind:"Cutter away for a strike; don't let the speed reach on a walk.",
+        tto:"Standard RHH look; manage the run game if he gets on."}},
+];
+
+const A=document.getElementById('arsenal');
+VOLCHKO.forEach(p=>{
+  const el=document.createElement('div');el.className='pitch';el.style.setProperty('--pc',p.c);
+  el.innerHTML=`<div class="pn">${p.n}</div><div class="pv">${p.v}<span style="font-size:12px;color:var(--muted)"> mph</span></div><div class="ps">${p.s}</div><div class="pd">${p.d}</div>`;
+  A.appendChild(el);
+});
+
+const RAIL=document.getElementById('rail');
+const DET=document.getElementById('detail');
+let CURRENT=null;
+
+function railItem(h){
+  const b=document.createElement('button');
+  b.className='bat';b.dataset.vol=h.vol;
+  b.innerHTML=`<span class="ord">${h.ord}</span>
+    <span class="bi"><span class="bn">${h.name}</span><br><span class="bp">${h.pos} · ${h.bt}</span></span>
+    <span class="hand ${h.vol}">${h.vol==='R'?'RHB':'LHB'}</span>
+    <span class="thr" style="background:${h.thrColor}"></span>`;
+  b.onclick=()=>select(h,b);
+  return b;
+}
+function zoneCell(i,z){
+  let cls='zc';
+  if(z.t1&&z.t1.includes(i))cls+=' t1';
+  else if(z.t2&&z.t2.includes(i))cls+=' t2';
+  else if(z.danger&&z.danger.includes(i))cls+=' danger';
+  else if(z.danger2&&z.danger2.includes(i))cls+=' danger2';
+  return `<div class="${cls}"></div>`;
+}
+function seqStep(s){
+  const color=PC[s[1]]||'#dfe3ea';
+  return `<div class="seqstep"><div class="scount">${s[0]}</div>
+    <div class="spitch"><span class="pdot" style="background:${color}"></span><span class="pabbr">${s[1]}</span></div>
+    <div class="sloc">${s[2]}</div></div>`;
+}
+function select(h,btn){
+  CURRENT=h.name;
+  document.querySelectorAll('.bat').forEach(x=>x.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const statHTML=Object.entries(h.stats).map(([k,v])=>`<div class="st"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('');
+  const tagHTML=h.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  const zoneHTML=[1,2,3,4,5,6,7,8,9].map(i=>zoneCell(i,h.zone)).join('');
+  const mixHTML=h.mix.map(m=>`<div class="mixrow"><span class="ml">${m[0]}</span><span class="mixbar"><i style="width:${m[1]}%;background:${m[2]}"></i></span><span class="mp">${m[1]}%</span></div>`).join('');
+  const seqHTML=h.seq.steps.map(seqStep).join('');
+  DET.innerHTML=`
+    <div class="d-top">
+      <div><div class="d-name">${h.name}</div><div class="d-sub">#${h.ord} · ${h.pos} · ${h.bt} · ${h.cls} · bats ${h.vol==='R'?'right':'left'} vs Volchko</div></div>
+      <div class="d-threat"><div class="lbl">Threat</div><div class="val" style="color:${h.thrColor}">${h.threat}</div></div>
+    </div>
+    <div class="statline">${statHTML}</div>
+    <div class="d-block"><h4>Profile</h4><p>${h.profile}</p><div style="margin-top:11px">${tagHTML}</div></div>
+    <div class="book"><p>${h.book}</p></div>
+    <div class="d-block"><h4>Where to attack &amp; what to throw</h4>
+      <div class="attack">
+        <div class="zone-wrap">
+          <div class="zlabels"><span>IN</span><span>MID</span><span>AWAY</span></div>
+          <div class="zone"><span class="zone-hand">${h.vol==='R'?'RHB':'LHB'} · BATTER VIEW</span>${zoneHTML}</div>
+          <div class="zone-cap"><b>green = attack</b> · <i>red = avoid</i></div>
+        </div>
+        <div class="mix">
+          <div style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:10px">Recommended mix</div>
+          ${mixHTML}
+        </div>
+      </div>
+    </div>
+    <div class="seq">
+      <h4>Optimal sequence</h4>
+      <div class="seqflow">${seqHTML}</div>
+      <div class="seqnote"><b>If behind:</b> ${h.seq.behind}</div>
+      <div class="seqnote tto"><b>2nd / 3rd time through:</b> ${h.seq.tto}</div>
+      <div class="legend">
+        <span><i style="background:${PC.FB}"></i>FB cut</span>
+        <span><i style="background:${PC.CT}"></i>Cutter</span>
+        <span><i style="background:${PC.SL}"></i>Slider</span>
+        <span><i style="background:${PC.CB}"></i>Curve</span>
+      </div>
+    </div>`;
+  DET.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function renderRail(filter){
+  RAIL.innerHTML='';
+  let list;
+  if(filter==='bench')list=BENCH;
+  else if(filter==='R')list=HITTERS.filter(h=>h.vol==='R');
+  else if(filter==='L')list=HITTERS.filter(h=>h.vol==='L');
+  else list=HITTERS;
+  list.forEach(h=>RAIL.appendChild(railItem(h)));
+  const stay=list.find(h=>h.name===CURRENT);
+  const target=stay||list[0];
+  const btn=[...RAIL.children].find(b=>b.querySelector('.bn').textContent===target.name);
+  select(target,btn);
+}
+document.getElementById('filter').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#filter button').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on');
+  renderRail(e.target.dataset.f);
+});
+document.getElementById('dateline').textContent='Compiled '+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+renderRail('all');
+</script>
+</body>
+</html>
